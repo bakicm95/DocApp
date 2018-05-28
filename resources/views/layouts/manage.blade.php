@@ -8,9 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-  
+    <title>{{ config('app.name', 'DocApp|Management') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -20,11 +18,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    
-    @include('includes.nav.nav')
 
-    <div id="app">
-        <main class="py-4">
+    @include('includes.nav.nav')
+    @include('includes.nav.manage')
+
+    <div id="app"> 
+        <main class="py-4" style="margin-left: 200px;">
             @yield('content')
         </main>
     </div>
@@ -32,6 +31,6 @@
     {{-- Scripts --}}
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
-
+    
 </body>
 </html>

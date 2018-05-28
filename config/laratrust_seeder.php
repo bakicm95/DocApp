@@ -2,15 +2,11 @@
 
 return [
     'role_structure' => [
-        'Doctor' => [
+        'doctor' => [
             'users' => 'c,r,u,d',
             'profile' => 'r,u'
         ],
-        'administrator' => [
-            'users' => 'c,r,u,d',
-            'profile' => 'r,u'
-        ],
-        'user' => [
+        'nurse' => [
             'profile' => 'r,u'
         ],
     ],
