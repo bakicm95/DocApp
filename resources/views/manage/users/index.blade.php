@@ -20,7 +20,7 @@
 
   <div class="card">
     <div class="card-content">
-      <table class="table is-narrow" style="width: 100%;">
+      <table class="table is-narrow is-hoverable" style="width: 100%;">
         <thead>
           <tr>
             <th>id</th>

@@ -11,6 +11,7 @@ Route::prefix('manage')->middleware('role:doctor|nurse')->group(function (){
 	Route::get('/dashboard', 'ManageController@dashboard')->name('manage.dashboard');
 	Route::resource('/users', 'UserController');
 	Route::resource('/patients', 'PatientController');
+	Route::resource('/appointments', 'AppointmentController');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

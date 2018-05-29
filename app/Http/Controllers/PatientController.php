@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Patient;
+use App\Appointment;
 
 class PatientController extends Controller
 {
@@ -36,6 +37,7 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate data
         $this->validate($request, [
             'name' => 'required|min:3',
             'email' => 'required|email|unique:patients',
@@ -49,6 +51,7 @@ class PatientController extends Controller
         $doctor_id = auth()->user()->id;
         
 
+        // Create new Patient
         $patient = new Patient();
 
         $patient->name = $request->name;
@@ -60,6 +63,7 @@ class PatientController extends Controller
         $patient->homeaddress = $request->homeaddress;
         $patient->phonenumber = $request->phonenumber;
 
+        // Save and redirect
         $patient->save();
 
         return redirect()->route('patients.show', $patient->id);
@@ -74,7 +78,8 @@ class PatientController extends Controller
     public function show($id)
     {
         $patient = Patient::findOrFail($id);
-        return view('manage.patients.show', compact('patient'));
+        $appointments = Appointment::where('patient_id', $id)->paginate(5);
+        return view('manage.patients.show', compact('patient', 'appointments'));
     }
 
     /**
@@ -85,7 +90,8 @@ class PatientController extends Controller
      */
     public function edit($id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        return view('manage.patients.edit', compact('patient'));
     }
 
     /**
@@ -97,7 +103,31 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Find Patient, and validate data
+        $patient = Patient::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:patients,email,'.$patient->id,
+            'jmbg' => 'required|min:13|max:13|unique:patients,jmbg,'.$patient->id,
+            'dateofb' => 'required',
+            'gender' => 'required',
+            'homeaddress' => 'required',
+            'phonenumber' => 'required',
+        ]);
+
+        // Save edited data and redirect
+        $patient->name = $request->name;
+        $patient->email = $request->email;
+        $patient->jmbg = $request->jmbg;
+        $patient->dateofb = $request->dateofb;
+        $patient->gender = $request->gender;
+        $patient->homeaddress = $request->homeaddress;
+        $patient->phonenumber = $request->phonenumber;
+
+        $patient->save();
+
+        return redirect()->route('patients.show', $patient->id);
     }
 
     /**

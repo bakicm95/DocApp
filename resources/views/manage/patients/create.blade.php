@@ -85,7 +85,7 @@
 			<div class="columns">
 				<div class="column">
 					<hr class="m-t-0" style="background-color: silver; height: 1px;"> {{-- Submit Btn --}}
-					<button class="button is-primary is-pulled-left m-t-10" style="width: 250px;">Create User</button>
+					<button class="button is-primary is-pulled-left m-t-10" style="width: 250px;">Create Patient</button>
 				</div>
 			</div>
 

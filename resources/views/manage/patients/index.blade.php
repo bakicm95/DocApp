@@ -20,7 +20,7 @@
 
   <div class="card">
     <div class="card-content">
-      <table class="table is-narrow" style="width: 100%;">
+      <table class="table is-narrow is-hoverable" style="width: 100%;">
         <thead>
           <tr>
             <th>id</th>
@@ -44,7 +44,7 @@
                 <td>{{ $patient->created_at->toFormattedDateString() }}</td>
                 <td class="has-text-right">
                   <a href="{{ route('patients.show', $patient->id) }}" class="button is-outlined m-r-5">View</a>
-                  <a href="#" class="button is-outlined">Edit</a>
+                  <a href="{{ route('patients.edit', $patient->id) }}" class="button is-outlined">Edit</a>
                 </td>
               </tr>
             @endforeach

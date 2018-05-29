@@ -8,7 +8,7 @@
 		<p class="menu-label">Patients</p>
 		<ul class="menu-list">
 			<li><a href="{{ route('patients.index') }}">Manage Patients</a></li>
-			<li><a href="#">Appointments</a></li>
+			<li><a href="{{ route('appointments.index') }}">Appointments</a></li>
 		</ul>
 		
 		<p class="menu-label">Administration</p>
