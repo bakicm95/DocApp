@@ -6,11 +6,9 @@
 	color: $grey-light !important;
 }
 
-a.is-muted:hover {
+a.is-muted:hover{
 	color: $grey !important;
 }
-
-
 
 
 /* ========================================
@@ -18,38 +16,39 @@ a.is-muted:hover {
    ======================================== */
 
 .dropdown {
-	position: relative;
-	
+position: relative;
+
 
 	.dropdown-menu {
 		display: none;
 		position: absolute;
 		left: 0;
-		top: 100%;
+		top: 104%;
 		z-index: 1000;
 		background-color: white;
 		min-width: 200px;
 		text-align: left;
-		box-shadow: 0 0 1px rgba(57, 70, 78, 0.15), 0 20px 55px -8px rgba(57, 70, 78, 0.25);
+		box-shadow: 0 0 1px rgba(57,70,78,.15), 0 20px 55px -8px rgba(57,70,78,.25);
 
-		li {
-			&.seperator {
-				border-top: 1px solid silver;
-				margin: 5px;
-			}
-			&>a {
+		li{
+			&.seperator{
+				border-top: 1px solid #ccc;
 				margin: 5px 0;
-				padding: 5px 0 5px 10px;
+			}
+			&>a{
+				margin: 5px 0;
+				padding: 5px 0  5px 15px;
 				display: block;
 
-				&:hover {
+				&:hover{
 					background-color: whitesmoke;
+
 				}
 			}
 		}
 	}
 
-	&.is-aligned-right .dropdown-menu{
+	&.is-aligned-right .dropdown-menu {
 		right: 0;
 		left: auto;
 	}
@@ -57,14 +56,17 @@ a.is-muted:hover {
 	&.is-open .dropdown-menu {
 		display: block;
 	}
-
 }
+
 
 /* ========================================
    =========== Nav Item Override ==========
    ======================================== */
 
-
+// I want the .nav-item design that comes from bulma,
+// but with <button> instead of <a>. This is the bulma
+// code but targeting <button> instead, plus a few
+// modifications to normalize the <button> css
 
 button.navbar-item {
   background-color: transparent;
@@ -101,6 +103,13 @@ button.navbar-item {
   }
 }
 
+
+.navbar-brand img {
+  max-height: 2.8rem;
+  margin-top: 15px;
+}
+
 .navbar {
   height: 4.5rem;
 }
+
