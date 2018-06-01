@@ -4,8 +4,17 @@
 @section('content')
 
 <script>
-	function addForm() {
-		var x = document.getElementById("addForm");
+	function currentAppointment() {
+		var x = document.getElementById("currentForm");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+	}
+
+	function scheduleAppointment() {
+		var x = document.getElementById("scheduleForm");
 		if (x.style.display === "none") {
 			x.style.display = "block";
 		} else {
@@ -43,7 +52,8 @@
 				</div>
 			</div> {{-- end of .card --}}
 
-			<a href="#" class="button is-primary m-t-15" onclick="addForm()">Schedule an Appointment</a>
+			<a href="#" class="button is-primary m-t-15" onclick="currentAppointment()">Current Appointment</a>
+			<a href="#" class="button is-primary m-t-15 m-l-100" onclick="scheduleAppointment()">Schedule an Appointment</a>
 
 		</div> {{-- end of .column --}}
 
@@ -71,14 +81,14 @@
 
 						<tbody>
 							@if(count($appointments) > 0)
-								@foreach($appointments as $appointment)
-									<tr>
-										<th><a href="{{ route('appointments.show', $appointment->id) }}">{{ $appointment->title }}</a></th>
-										<td>{{ $appointment->created_at->toDayDateTimeString() }}</td>
-									</tr>
-								@endforeach
+							@foreach($appointments as $appointment)
+							<tr>
+								<th><a href="{{ route('appointments.show', $appointment->id) }}">{{ $appointment->title }}</a></th>
+								<td>{{ $appointment->created_at->toDayDateTimeString() }}</td>
+							</tr>
+							@endforeach
 							@else
-								<th style="color: red;">- Patient have no appointment's yet.</th>
+							<th style="color: red;">- Patient have no appointment's yet.</th>
 							@endif
 						</tbody>
 					</table> {{-- end of table --}}
@@ -88,11 +98,13 @@
 	</div> {{-- end of .columns --}}
 	
 	<div class="columns">
-		<div class="column is-half">
+		<div class="column is-three-quarters">
 			<div class="m-t-10 m-b-10">
 				@include('layouts.errors')
 			</div>
-			<form action="{{ route('appointments.store', $patient->id) }}" method="post" id="addForm" style="display: none;">
+
+			{{-- FORM FOR CURRENT APPOINTMENT --}}
+			<form action="{{ route('appointments.store', $patient->id) }}" method="post" id="currentForm" style="display: none;">
 				{{ csrf_field() }}
 
 				<div class="field">
@@ -109,14 +121,97 @@
 					</p>
 				</div>
 
+
 				<input type="hidden" name="patient_id" value="{{ $patient->id }}">
 				<input type="hidden" name="patient_name" value="{{ $patient->name }}">
+				<input type="hidden" name="checked" value="false">
 
 				<div class="field">
 					<button class="button is-primary">Submit</button>
 				</div>
 
-			</form>
+			</form> {{-- end of FORM FOR CURRENT APPOINTMENT --}}
+
+
+			{{-- SCHEDULE AN APPOINTMENT FORM --}}
+			<form action="{{ route('appointments.store', $patient->id) }}" method="post" id="scheduleForm" style="display: none;">
+				{{ csrf_field() }}
+
+				<div class="field">
+					<label for="Title" class="label">Title</label>
+					<p class="control">
+						<input type="text" class="input" name="title">
+					</p>
+				</div>
+				
+				<div class="field">
+					<label for="Title" class="label">Report</label>
+					<p class="control">
+						<textarea name="report" id="" cols="30" rows="10" class="textarea"></textarea>
+					</p>
+				</div>
+
+				<div class="field">
+					<div class="columns">
+
+						<div class="column">
+							<label for="appointment_date" class="label">Select Month</label>
+							<p class="control">
+								<div class="control">
+									<div class="select is-primary">
+										<select class="is-focused" name="appointment_date_month">
+											<option value="1">January</option>
+											<option value="2">February</option>
+											<option value="3">March</option>
+											<option value="4">April</option>
+											<option value="5">May</option>
+											<option value="6">June</option>
+											<option value="7">July</option>
+											<option value="8">August</option>
+											<option value="9">September</option>
+											<option value="10">October</option>
+											<option value="11">November</option>
+											<option value="12">December</option>
+										</select>
+									</div>
+								</div>
+							</p>
+						</div>
+
+						<div class="column">
+							<label for="appointment_date" class="label">Insert Day</label>
+							<p class="control">
+								<input type="number" class="input" name="appointment_date_days">
+							</p>
+						</div>
+
+						<div class="column">
+							<label for="appointment_date" class="label">Insert Hours</label>
+							<div class="control">
+								<input type="number" class="input" name="appointment_date_hours">
+							</div>
+						</div>
+
+						<div class="column">
+							<label for="appointment_date" class="label">Insert Minutes</label>
+							<div class="control">
+								<input type="number" class="input" name="appointment_date_minutes">
+							</div>
+						</div>
+
+					</div>	{{-- end of .columns --}}
+				</div> {{-- end of .field --}}
+
+				<input type="hidden" name="patient_id" value="{{ $patient->id }}">
+				<input type="hidden" name="patient_name" value="{{ $patient->name }}">
+				<input type="hidden" name="checked" value="true">
+
+				<div class="field">
+					<button class="button is-primary">Submit</button>
+				</div>
+
+			</form> {{-- end of SCHEDULE AN APPOINTMENT FORM --}}
+
 		</div> {{-- end of .column --}}
 	</div>	{{-- end of .columns --}}
 	

@@ -10,7 +10,7 @@
     </div>
 
     <div class="column">
-      <a href="{{ route('patients.create') }}" class="button is-primary is-pulled-right">Create Patient</a>
+      <a href="{{ route('patients.create') }}" class="button is-primary is-pulled-right"><i class="fa fa-user-plus m-r-10"> Create Patient</i></a>
     </div>
 
   </div> {{-- end of .columns --}}

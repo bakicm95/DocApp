@@ -21,6 +21,8 @@ class CreateAppointmentsTable extends Migration
             $table->string('patient_name');
             $table->string('doctor_name');
             $table->text('report');
+            $table->timestamp('appointment_date')->nullable();
+            $table->string('checked')->nullable();
             $table->timestamps();
         });
     }

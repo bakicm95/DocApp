@@ -17,7 +17,7 @@
 					Hey {{ auth()->user()->name }} <span class="icon"><i class="fa fa-caret-down"></i></span>
 				
 					<ul class="dropdown-menu">
-						<li><a href="#">
+						<li><a href="{{ route('profile.index') }}">
 							<span class="icon"><i class="fa fa-fw fa-user-circle-o"></i></span> 
 						Profile</a></li>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Appointment;
 use App\Patient;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
@@ -16,8 +17,9 @@ class AppointmentController extends Controller
     public function index()
     {   
         $patients = Patient::all();
-        $appointments = Appointment::orderBy('id', 'desc')->paginate(5);
-        return view('manage.appointments.index', compact('appointments', 'patients'));
+        $completed_appointments = Appointment::orderBy('id', 'desc')->where('checked', 'false')->paginate(10);
+        $scheduled_appointments = Appointment::orderBy('id', 'desc')->where('checked', 'true')->paginate(10);
+        return view('manage.appointments.index', compact('completed_appointments', 'scheduled_appointments', 'patients'));
     }
 
     /**
@@ -38,24 +40,62 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $month = $request->appointment_date_month;
+        $days = $request->appointment_date_days;
+        $hours = $request->appointment_date_hours;
+        $minutes = $request->appointment_date_minutes;
+
+
+        if($days && $hours && $minutes){
+             $this->validate($request, [
             'title' => 'required|min:3',
-            'report' => 'required|min:5'
+            'report' => 'required|min:5',
+            'appointment_date_days' => 'required',
+            'appointment_date_hours' => 'required',
+            'appointment_date_minutes' => 'required'
         ]);
 
-        $appointment = new Appointment();
-        $appointment->doctor_id = auth()->user()->id;
-        $appointment->patient_id = $request->patient_id;
-        $appointment->title = $request->title;
-        $appointment->patient_name = $request->patient_name;
-        $appointment->doctor_name = auth()->user()->name;
-        $appointment->report = $request->report;
+            
+            $date = Carbon::create(2018, $month, $days, $hours, $minutes);
 
-        $appointment->save();
+            $appointment = new Appointment();
+            $appointment->doctor_id = auth()->user()->id;
+            $appointment->patient_id = $request->patient_id;
+            $appointment->title = $request->title;
+            $appointment->patient_name = $request->patient_name;
+            $appointment->doctor_name = auth()->user()->name;
+            $appointment->report = $request->report;
+            $appointment->appointment_date = $date;
+            $appointment->checked = $request->checked;
 
-        return redirect()->route('appointments.show', $appointment->id);
+
+            $appointment->save();
+
+            return redirect()->route('appointments.show', $appointment->id);
+
+        }
+
+            $this->validate($request, [
+                'title' => 'required|min:3',
+                'report' => 'required|min:5'
+            ]);
+
+
+            $appointment = new Appointment();
+            $appointment->doctor_id = auth()->user()->id;
+            $appointment->patient_id = $request->patient_id;
+            $appointment->title = $request->title;
+            $appointment->patient_name = $request->patient_name;
+            $appointment->doctor_name = auth()->user()->name;
+            $appointment->report = $request->report;
+            $appointment->checked = $request->checked;
+
+            $appointment->save();
+
+            return redirect()->route('appointments.show', $appointment->id);
 
     }
+
 
     /**
      * Display the specified resource.
